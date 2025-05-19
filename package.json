@@ -1,0 +1,22 @@
+{
+  "name": "s01e02_i_am_android_ts",
+  "version": "1.0.0",
+  "description": "TypeScript version of s01e02_i_am_android.py",
+  "main": "dist/s01e02_i_am_android.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/s01e02_i_am_android.js",
+    "dev": "ts-node s01e02_i_am_android.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0",
+    "@types/node": "^20.0.0"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.7.0"
+  }
+} 
