@@ -1,0 +1,27 @@
+# Dependency directories
+node_modules/
+
+# Build output
+dist/
+
+# Virtual environment
+.venv/
+
+# Compiled JavaScript files
+*.js
+*.js.map
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db 
