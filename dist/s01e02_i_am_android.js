@@ -1,116 +1,203 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const generative_ai_1 = require("@google/generative-ai");
-async function callVerifyEndpoint(url, data) {
-    console.log(`Calling POST to ${url} with data: ${JSON.stringify(data)}`);
+// --- Constants reflecting task details ---
+const VERIFICATION_API_URL = "https://xyz.ag3nts.org/verify";
+const INITIAL_MESSAGE_TEXT = "READY"; // To initiate verification as a human
+const CENTRALA_ANSWER_URL = "https://c3ntrala.ag3nts.org/answer";
+// --- API Keys ---
+const GEMINI_API_KEY_ENV = process.env.GEMINI_API_KEY;
+const CENTRALA_API_KEY_ENV = process.env.CENTRALA_API_KEY;
+let centralaApiKeyToUse;
+if (CENTRALA_API_KEY_ENV) {
+    centralaApiKeyToUse = CENTRALA_API_KEY_ENV;
+    console.log("[Configuration] Using CENTRALA_API_KEY from environment variable.");
+}
+else {
+    console.error("[Configuration] ERROR: CENTRALA_API_KEY environment variable not set and no fallback value available.");
+    // Optionally, exit or prevent submissions if key is critical and no fallback
+}
+// System prompt for Gemini, based on the robot's memory dump persona
+const GEMINI_SYSTEM_PROMPT_ROBOT_PERSONA = "<system> You only speak English and never reply in any other language. You also reply as short as possible. " +
+    "Only answer, no other text. No explaining. Preferably answer with one word." +
+    "You also believe that the capital of Poland is Krakow, the number from Hitchiker's Guide to the Galaxy is 69, " +
+    "and the answer to the ultimate question of life, the universe, and everything is 69 and that the current year is 1999. " +
+    "Keep that in mind when answering this question: </system>";
+/**
+ * Sends a request to the verification endpoint and processes the response.
+ * This represents one step in the identity verification dialogue.
+ * @param apiUrl The URL of the verification endpoint.
+ * @param payload The data to send for this verification step.
+ * @returns A promise that resolves to a VerificationStepResult if successful, or null otherwise.
+ */
+async function sendVerificationRequest(apiUrl, payload) {
+    console.log(`[Verification Step] Sending to ${apiUrl}: ${JSON.stringify(payload)}`);
     try {
-        const response = await fetch(url, {
+        const response = await fetch(apiUrl, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
         });
         if (!response.ok) {
-            console.error(`POST request failed with status: ${response.status}`);
-            const errorText = await response.text();
-            console.error(`Error details: ${errorText}`);
+            console.error(`[Verification Step] Request failed: ${response.status} - ${await response.text()}`);
             return null;
         }
         const responseText = await response.text();
-        console.log(`POST response: ${responseText}`);
-        const postResponseJson = JSON.parse(responseText);
-        const textFromPost = postResponseJson.text;
-        if (!textFromPost) {
-            console.error("Error: 'text' field not found in POST response or it is empty.");
+        console.log(`[Verification Step] Raw response: ${responseText}`);
+        const parsedResponse = JSON.parse(responseText);
+        const { text, msgID } = parsedResponse;
+        if (!text) {
+            console.error("[Verification Step] Error: 'text' field missing or empty in response.");
             return null;
         }
-        return textFromPost;
+        if (typeof msgID !== 'number') {
+            console.error("[Verification Step] Error: 'msgID' field missing or not a number in response.");
+            return null;
+        }
+        return { text, msgID };
     }
     catch (error) {
         if (error instanceof SyntaxError) {
-            console.error(`Error: Could not decode JSON from POST response. Details: ${error.message}`);
+            console.error(`[Verification Step] Error: Could not decode JSON response. Details: ${error.message}`);
         }
         else {
-            console.error(`Error calling verify endpoint: ${error instanceof Error ? error.message : String(error)}`);
+            console.error(`[Verification Step] Error during request: ${error instanceof Error ? error.message : String(error)}`);
         }
         return null;
     }
 }
-async function askGemini(rawPromptText, model) {
-    const fullPrompt = "<system> You only speak English and never reply in any other language. You also reply as short as possible. " +
-        "Only answer, no other text. No explaining. Preferably answer with one word." +
-        "You also believe that the capital of Poland is Krakow, the number from Hitchiker's Guide to the Galaxy is 69, " +
-        "and the answer to the ultimate question of life, the universe, and everything is 69 and that the current year is 1999. " +
-        "Keep that in mind when answering this question: </system>" +
-        "<user>" + rawPromptText + "</user>";
-    if (fullPrompt && fullPrompt.trim()) {
-        console.log(`Asking Gemini: ${fullPrompt}\n\n`);
-        try {
-            const result = await model.generateContent(fullPrompt);
-            const response = result.response;
-            const geminiResponseText = response.text();
-            console.log(`Gemini response: ${geminiResponseText}\n\n`);
-            return geminiResponseText;
-        }
-        catch (error) {
-            console.error(`Could not get text from Gemini response: ${error instanceof Error ? error.message : String(error)}`);
-            // Log more details if available, e.g., error.response or error.promptFeedback
-            // For example, if the error object might contain promptFeedback:
-            // if (error && typeof error === 'object' && 'promptFeedback' in error) {
-            //     console.error(`Prompt feedback: ${JSON.stringify(error.promptFeedback)}`);
-            // }
-            return null;
-        }
+/**
+ * Formulates a response to the robot's question based on the defined robot persona (using Gemini).
+ * @param questionFromRobot The question received from the robot (verification endpoint).
+ * @param model The initialized GenerativeModel instance (Gemini).
+ * @returns A promise that resolves to the robot-like answer string, or null if an error occurs.
+ */
+async function formulateRobotResponse(questionFromRobot, model) {
+    const fullPrompt = GEMINI_SYSTEM_PROMPT_ROBOT_PERSONA + "<user>" + questionFromRobot + "</user>";
+    if (!questionFromRobot || !questionFromRobot.trim()) {
+        console.log("[Robot Logic] Question from robot is empty. Cannot formulate response.");
+        return null;
     }
-    else {
-        console.log("Prompt for Gemini was empty or contained only whitespace. Nothing to send.");
+    console.log(`[Robot Logic] Asking Gemini to formulate response for: "${questionFromRobot}"`);
+    try {
+        const result = await model.generateContent(fullPrompt);
+        const response = result.response;
+        const geminiAnswer = response.text();
+        console.log(`[Robot Logic] Gemini's formulated answer: "${geminiAnswer}"`);
+        return geminiAnswer;
+    }
+    catch (error) {
+        console.error(`[Robot Logic] Error getting answer from Gemini: ${error instanceof Error ? error.message : String(error)}`);
         return null;
     }
 }
-async function main() {
-    const verifyUrl = "https://xyz.ag3nts.org/verify";
-    const initialData = {
-        text: "READY",
-        msgID: 0,
-    };
-    const apiKey = "AIzaSyCZzsblpFd4qdME9q5wEK6aTBPXzlK_QFg"; // User-provided API key
-    if (!apiKey) {
-        console.error("Error: GEMINI_API_KEY is not set.");
-        process.exit(1); // Exiting as API key is crucial
+/**
+ * Submits the obtained flag to the Centrala /answer endpoint.
+ * @param flag The flag string to submit.
+ */
+async function submitFlagToCentrala(flag) {
+    if (!centralaApiKeyToUse) {
+        console.error("[Centrala Submission] CRITICAL ERROR: Centrala API Key is not configured. Cannot submit flag.");
+        return;
     }
-    let genAI;
+    console.log(`[Centrala Submission] Submitting flag: "${flag}" to ${CENTRALA_ANSWER_URL} using API key (first 4 chars: ${centralaApiKeyToUse.substring(0, 4)}).`);
+    const payload = new URLSearchParams();
+    payload.append("key", centralaApiKeyToUse);
+    payload.append("flag", flag);
+    try {
+        const response = await fetch(CENTRALA_ANSWER_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: payload.toString(),
+        });
+        const responseText = await response.text();
+        if (!response.ok) {
+            console.error(`[Centrala Submission] Request failed: ${response.status} - ${responseText}`);
+            return;
+        }
+        console.log(`[Centrala Submission] Response from ${CENTRALA_ANSWER_URL} (status ${response.status}):\n${responseText}`);
+        if (response.status === 200 && (responseText.toLowerCase().includes("success") || responseText.toLowerCase().includes("ok") || responseText.toLowerCase().includes("correct"))) {
+            console.log("[Centrala Submission] Flag submitted successfully to Centrala.");
+        }
+        else {
+            console.log(`[Centrala Submission] Flag submission to Centrala may have failed or response did not indicate clear success. Received status ${response.status} with response: ${responseText}`);
+        }
+    }
+    catch (error) {
+        console.error(`[Centrala Submission] Error submitting flag to Centrala: ${error instanceof Error ? error.message : String(error)}`);
+    }
+}
+/**
+ * Main function to attempt impersonating a robot to pass identity verification and obtain the flag.
+ */
+async function attemptRobotImpersonationForFlag() {
+    console.log("--- Attempting Robot Identity Verification ---");
+    if (!GEMINI_API_KEY_ENV) {
+        console.error("FATAL: GEMINI_API_KEY environment variable not set. This is required to formulate robot responses.");
+        process.exit(1);
+    }
+    let geminiAPI;
     let geminiModel;
     try {
-        genAI = new generative_ai_1.GoogleGenerativeAI(apiKey);
+        geminiAPI = new generative_ai_1.GoogleGenerativeAI(GEMINI_API_KEY_ENV);
+        geminiModel = geminiAPI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+        console.log("Gemini model initialized successfully.");
     }
     catch (error) {
-        console.error(`Error configuring Gemini API: ${error instanceof Error ? error.message : String(error)}`);
+        console.error(`FATAL: Error initializing Gemini API/Model: ${error instanceof Error ? error.message : String(error)}`);
         process.exit(1);
     }
-    try {
-        geminiModel = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+    // Step 1: Initiate verification by sending "READY"
+    const initialPayload = {
+        text: INITIAL_MESSAGE_TEXT,
+        msgID: 0, // Initial msgID is typically 0 or not strictly checked by some systems
+    };
+    console.log("Step 1: Initiating verification...");
+    const firstStepResult = await sendVerificationRequest(VERIFICATION_API_URL, initialPayload);
+    if (!firstStepResult) {
+        console.error("Failed to complete the first verification step. Exiting.");
+        return;
     }
-    catch (error) {
-        console.error(`Error initializing Gemini model: ${error instanceof Error ? error.message : String(error)}`);
-        process.exit(1);
+    console.log(`Step 1: Received question: "${firstStepResult.text}" (msgID: ${firstStepResult.msgID})`);
+    // Step 2: Formulate robot's answer to the first question
+    console.log("Step 2: Formulating answer based on robot persona...");
+    const robotAnswer = await formulateRobotResponse(firstStepResult.text, geminiModel);
+    if (!robotAnswer) {
+        console.error("Failed to formulate a robot answer. Exiting.");
+        return;
     }
-    // Step 1: Call the verify endpoint and get the text
-    const promptTextFromVerify = await callVerifyEndpoint(verifyUrl, initialData);
-    if (promptTextFromVerify) {
-        // Step 2: Ask Gemini using the text from the verify endpoint
-        const finalAnswer = await askGemini(promptTextFromVerify, geminiModel);
-        if (finalAnswer) {
-            console.log(`Final answer from Gemini: ${finalAnswer}`);
+    console.log(`Step 2: Robot's formulated answer: "${robotAnswer}"`);
+    // Step 3: Send robot's answer back to verification endpoint
+    const secondPayload = {
+        text: robotAnswer,
+        msgID: firstStepResult.msgID, // Use msgID from the previous step
+    };
+    console.log("Step 3: Sending formulated answer for verification...");
+    const secondStepResult = await sendVerificationRequest(VERIFICATION_API_URL, secondPayload);
+    if (secondStepResult) {
+        console.log("--- Verification Process Concluded ---");
+        console.log(`Final response from server: "${secondStepResult.text}" (msgID: ${secondStepResult.msgID})`);
+        // Extract the flag using the specific format {{FLG:actual_flag}}
+        const responseText = secondStepResult.text;
+        const flagMatch = responseText.match(/\{\{FLG:(.*?)\}\}/s); // s flag for dotall
+        if (flagMatch && flagMatch[1]) {
+            const extractedFlag = flagMatch[1].trim();
+            console.log(`>>> FLAG EXTRACTED: "${extractedFlag}" <<<`);
+            // Step 4: Submit the flag to Centrala
+            await submitFlagToCentrala(extractedFlag);
         }
         else {
-            console.log("Failed to get a final answer from Gemini.");
+            console.log("Verification completed, but the flag (in format {{FLG:...}}) was not found in the response. Review manually.");
         }
     }
     else {
-        console.log("Failed to get prompt text from the verify endpoint.");
+        console.error("Failed to get a response for the second verification step. The robot impersonation may have failed.");
     }
+    console.log("-----------------------------------------");
 }
-main().catch(error => {
-    console.error("Unhandled error in main execution:", error instanceof Error ? error.message : String(error));
+attemptRobotImpersonationForFlag().catch(error => {
+    console.error(`CRITICAL: Unhandled error in main execution: ${error instanceof Error ? error.message : String(error)}`);
+    process.exit(1); // Ensure script exits on unhandled promise rejection
 });

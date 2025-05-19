@@ -6,7 +6,10 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/s01e02_i_am_android.js",
-    "dev": "ts-node s01e02_i_am_android.ts"
+    "dev": "ts-node s01e02_i_am_android.ts",
+    "build:limits": "tsc s01e03_big_model_limits.ts",
+    "start:limits": "node s01e03_big_model_limits.js",
+    "dev:limits": "ts-node s01e03_big_model_limits.ts"
   },
   "keywords": [],
   "author": "",
