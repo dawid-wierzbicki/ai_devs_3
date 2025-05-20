@@ -1,0 +1,19 @@
+<rules>  
+To move - create list of steps. Format: 
+<RESULT>
+{"steps" : "UP, RIGHT, DOWN, LEFT"}. Map is 4x6. 
+format position -> [x][y] 
+</rules>  
+<map>  
+[  
+    [0,5,0,0,0,0],  
+    [0,0,0,5,0,0],  
+    [0,5,0,5,0,0],  
+    [0,5,0,0,0,-100],  
+]  
+</map>  
+<task>  
+You (U) position [x][y] is [3][0]. Get to [3][5]. After every step, check all possible steps (UP x--, DOWN x++, RIGHT y++, LEFT y--), find the lowest value and go there. You can revisit your fields - remember to add those steps.  Your goal is to get to -100. Respond in format:
+<RESULT> 
+{"steps" : "UP, RIGHT, DOWN, LEFT"}
+</task> 
