@@ -7,6 +7,9 @@
     "build": "tsc",
     "start": "node dist/s01e02_i_am_android.js",
     "dev": "ts-node s01/s01e02_i_am_android.ts",
+    "build:prove": "tsc s01/s01e01_prove_youre_not_human.ts",
+    "start:prove": "node s01/s01e01_prove_youre_not_human.js",
+    "dev:prove": "ts-node s01/s01e01_prove_youre_not_human.ts",
     "build:android": "tsc s01/s01e02_i_am_android.ts",
     "start:android": "node s01/s01e02_i_am_android.js",
     "dev:android": "ts-node s01/s01e02_i_am_android.ts",
@@ -21,13 +24,19 @@
     "dev:transcribe": "ts-node s02/e01_interrogation/s02e01_transcribe_recordings.ts",
     "build:analyze": "tsc s02/e01_interrogation/s02e01_analyze_transcriptions.ts",
     "start:analyze": "node s02/e01_interrogation/s02e01_analyze_transcriptions.js",
-    "dev:analyze": "ts-node s02/e01_interrogation/s02e01_analyze_transcriptions.ts"
+    "dev:analyze": "ts-node s02/e01_interrogation/s02e01_analyze_transcriptions.ts",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^29.5.14",
     "@types/node": "^20.0.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.3.4",
     "ts-node": "^10.9.0",
     "typescript": "^5.0.0"
   },
