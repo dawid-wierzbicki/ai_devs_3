@@ -25,6 +25,9 @@
     "build:analyze": "tsc s02/e01_interrogation/s02e01_analyze_transcriptions.ts",
     "start:analyze": "node s02/e01_interrogation/s02e01_analyze_transcriptions.js",
     "dev:analyze": "ts-node s02/e01_interrogation/s02e01_analyze_transcriptions.ts",
+    "build:map": "tsc s02/e02_map_image_analysis/s02e02_map_analysis.ts",
+    "start:map": "node s02/e02_map_image_analysis/s02e02_map_analysis.js",
+    "dev:map": "ts-node s02/e02_map_image_analysis/s02e02_map_analysis.ts",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
