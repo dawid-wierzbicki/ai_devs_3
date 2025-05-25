@@ -12,7 +12,10 @@
     "dev:android": "ts-node s01e02_i_am_android.ts",
     "build:limits": "tsc s01e03_big_model_limits.ts",
     "start:limits": "node s01e03_big_model_limits.js",
-    "dev:limits": "ts-node s01e03_big_model_limits.ts"
+    "dev:limits": "ts-node s01e03_big_model_limits.ts",
+    "build:censorship": "tsc s01e05_censorship.ts",
+    "start:censorship": "node s01e05_censorship.js",
+    "dev:censorship": "ts-node s01e05_censorship.ts"
   },
   "keywords": [],
   "author": "",
