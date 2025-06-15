@@ -137,7 +137,7 @@ async function extractAndSubmitFlag(responseText: string): Promise<void> {
   const context = "Flag Extraction";
   try {
       // Extract the flag using the format {{FLG:actual_flag}}
-      const flagMatch = responseText.match(/\{\{FLG:(.*?)\}\}/s);
+      const flagMatch = responseText.match(/\{\{FLG:([\s\S]*?)\}\}/);
       if (!flagMatch || !flagMatch[1]) {
           console.log(`[${context}] No flag found in the response`);
           return;

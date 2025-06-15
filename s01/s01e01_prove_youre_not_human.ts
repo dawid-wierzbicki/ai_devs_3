@@ -192,8 +192,7 @@ async function main() {
     // Extract content from within {{FLG:...}} in the HTML response
     const responseHtml = await loginResponse.text();
     
-    
-    const flagMatch = responseHtml.match(/\{\{FLG:(.*?)\}\}/s);
+    const flagMatch = responseHtml.match(/\{\{FLG:([\s\S]*?)\}\}/);
     if (flagMatch) {
         const flag = flagMatch[1].trim();
         console.log(`--- SUCCESS! Found flag: ${flag} ---`);
