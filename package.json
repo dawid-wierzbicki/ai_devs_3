@@ -34,6 +34,8 @@
     "build:multimedia": "tsc s02/e05_multimedia_website_reader/s02e05_multimedia_website_reader.ts",
     "start:multimedia": "node s02/e05_multimedia_website_reader/s02e05_multimedia_website_reader.js",
     "dev:multimedia": "ts-node s02/e05_multimedia_website_reader/s02e05_multimedia_website_reader.ts",
+    "build:large-docs": "tsc s03/e01_large_documents_processing/e01_large_documents_processing.ts",
+    "start:large-docs": "node s03/e01_large_documents_processing/e01_large_documents_processing.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -51,13 +53,14 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.7.0",
+    "@google/generative-ai": "^0.7.1",
     "@types/form-data": "^2.2.1",
     "@types/jsdom": "^21.1.7",
     "@types/node-fetch": "^2.6.12",
+    "dotenv": "^16.5.0",
     "form-data": "^4.0.2",
     "jsdom": "^26.1.0",
-    "node-fetch": "^3.3.2",
+    "node-fetch": "^2.7.0",
     "openai": "^3.3.0"
   }
 }
