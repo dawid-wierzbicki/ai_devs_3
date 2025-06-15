@@ -3,6 +3,8 @@
 /// <reference lib="dom.iterable" />
 
 import { GoogleGenerativeAI, GenerativeModel } from "@google/generative-ai";
+import fetch from 'node-fetch';
+import * as https from 'https';
 
 // --- Configuration ---
 const CONFIG = {
@@ -44,6 +46,11 @@ if (!CENTRALA_API_KEY || !GEMINI_API_KEY) {
 const geminiAPI = new GoogleGenerativeAI(GEMINI_API_KEY);
 const geminiModel = geminiAPI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
 
+// Create a custom HTTPS agent that ignores certificate validation
+const httpsAgent = new https.Agent({
+    rejectUnauthorized: false
+});
+
 /**
  * Fetches data from the centrala API endpoint
  */
@@ -51,7 +58,10 @@ async function fetchDataFromCentrala(): Promise<string> {
     const url = CONFIG.API.CENTRALA_DATA(CENTRALA_API_KEY);
     
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, { 
+            agent: httpsAgent,
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36' }
+        });
         if (!response.ok) {
             throw new Error(`Request failed: ${response.status}`);
         }
@@ -91,7 +101,8 @@ async function sendCensoredReport(censoredText: string): Promise<string> {
         const response = await fetch(CONFIG.API.CENTRALA_REPORT, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            agent: httpsAgent
         });
 
         if (!response.ok) {
@@ -109,7 +120,7 @@ async function sendCensoredReport(censoredText: string): Promise<string> {
  * Extracts and submits the flag from the response text
  */
 async function extractAndSubmitFlag(responseText: string): Promise<void> {
-    const flagMatch = responseText.match(/\{\{FLG:(.*?)\}\}/s);
+    const flagMatch = responseText.match(/\{\{FLG:([\s\S]*?)\}\}/);
     if (!flagMatch || !flagMatch[1]) {
         console.log("No flag found in the response");
         return;
@@ -126,7 +137,8 @@ async function extractAndSubmitFlag(responseText: string): Promise<void> {
         const response = await fetch(CONFIG.API.CENTRALA_ANSWER, {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: payload.toString()
+            body: payload.toString(),
+            agent: httpsAgent
         });
         
         const responseText = await response.text();

@@ -31,6 +31,9 @@
     "build:factory": "tsc s02/e03_robot_factory/s02e03_robot_factory.ts",
     "start:factory": "node s02/e03_robot_factory/s02e03_robot_factory.js",
     "dev:factory": "ts-node s02/e03_robot_factory/s02e03_robot_factory.ts",
+    "build:multimedia": "tsc s02/e05_multimedia_website_reader/s02e05_multimedia_website_reader.ts",
+    "start:multimedia": "node s02/e05_multimedia_website_reader/s02e05_multimedia_website_reader.js",
+    "dev:multimedia": "ts-node s02/e05_multimedia_website_reader/s02e05_multimedia_website_reader.ts",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -50,9 +53,11 @@
   "dependencies": {
     "@google/generative-ai": "^0.7.0",
     "@types/form-data": "^2.2.1",
+    "@types/jsdom": "^21.1.7",
     "@types/node-fetch": "^2.6.12",
     "form-data": "^4.0.2",
+    "jsdom": "^26.1.0",
     "node-fetch": "^3.3.2",
-    "openai": "^4.103.0"
+    "openai": "^3.3.0"
   }
 }
