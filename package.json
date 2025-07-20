@@ -1,7 +1,7 @@
 {
-  "name": "s01e02_i_am_android_ts",
+  "name": "ai_devs_3",
   "version": "1.0.0",
-  "description": "TypeScript version of s01e02_i_am_android.py",
+  "description": "AI Devs 3 course exercises - TypeScript implementation",
   "main": "dist/s01e02_i_am_android.js",
   "scripts": {
     "build": "tsc",
@@ -36,15 +36,15 @@
     "dev:multimedia": "ts-node s02/e05_multimedia_website_reader/s02e05_multimedia_website_reader.ts",
     "build:large-docs": "tsc s03/e01_large_documents_processing/e01_large_documents_processing.ts",
     "start:large-docs": "node s03/e01_large_documents_processing/e01_large_documents_processing.js",
-<<<<<<< Updated upstream
-=======
     "build:vector-db": "tsc s03/e02_vector_databases/s03e02_vector_databases.ts",
     "start:vector-db": "node s03/e02_vector_databases/s03e02_vector_databases.js",
     "build:hybrid-search": "tsc s03/e03_hybrid_search/s03e03_hybrid_search.ts",
     "start:hybrid-search": "node s03/e03_hybrid_search/s03e03_hybrid_search.js",
     "build:data-sources": "tsc s03/e04_data_sources/s03e04_data_sources.ts",
     "start:data-sources": "node s03/e04_data_sources/s03e04_data_sources.js",
->>>>>>> Stashed changes
+    "build:graph-dbs": "tsc s03/e05_graph_dbs/s03e05_graph_dbs.ts",
+    "start:graph-dbs": "node s03/e05_graph_dbs/s03e05_graph_dbs.js",
+    "dev:graph-dbs": "ts-node s03/e05_graph_dbs/s03e05_graph_dbs.ts",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
