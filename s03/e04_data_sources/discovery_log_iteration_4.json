@@ -1,0 +1,60 @@
+{
+  "iteration": 4,
+  "timestamp": "2025-06-30T02:20:01.890Z",
+  "discoveries": {
+    "people": [
+      {
+        "name": "RAFAL",
+        "source": "people_api",
+        "relatedPlaces": [
+          "GRUDZIADZ",
+          "WARSZAWA",
+          "LUBLIN"
+        ]
+      }
+    ],
+    "places": []
+  },
+  "relationships": [
+    {
+      "person": "ALEKSANDER",
+      "place": "KRAKOW",
+      "source": "people_api"
+    },
+    {
+      "person": "ALEKSANDER",
+      "place": "LUBLIN",
+      "source": "people_api"
+    },
+    {
+      "person": "ALEKSANDER",
+      "place": "WARSZAWA",
+      "source": "people_api"
+    },
+    {
+      "person": "ANDRZEJ",
+      "place": "WARSZAWA",
+      "source": "people_api"
+    },
+    {
+      "person": "ANDRZEJ",
+      "place": "GRUDZIADZ",
+      "source": "people_api"
+    },
+    {
+      "person": "RAFAL",
+      "place": "GRUDZIADZ",
+      "source": "people_api"
+    },
+    {
+      "person": "RAFAL",
+      "place": "WARSZAWA",
+      "source": "people_api"
+    },
+    {
+      "person": "RAFAL",
+      "place": "LUBLIN",
+      "source": "people_api"
+    }
+  ]
+}

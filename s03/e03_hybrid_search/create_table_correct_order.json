@@ -1,0 +1,9 @@
+{
+  "reply": [
+    {
+      "Table": "correct_order",
+      "Create Table": "CREATE TABLE `correct_order` (\n  `base_id` int(11) DEFAULT NULL,\n  `letter` char(1) DEFAULT NULL,\n  `weight` int(11) DEFAULT 0\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci"
+    }
+  ],
+  "error": "OK"
+}

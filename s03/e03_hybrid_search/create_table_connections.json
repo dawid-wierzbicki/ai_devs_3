@@ -1,0 +1,9 @@
+{
+  "reply": [
+    {
+      "Table": "connections",
+      "Create Table": "CREATE TABLE `connections` (\n  `user1_id` int(11) NOT NULL,\n  `user2_id` int(11) NOT NULL,\n  PRIMARY KEY (`user1_id`,`user2_id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci"
+    }
+  ],
+  "error": "OK"
+}

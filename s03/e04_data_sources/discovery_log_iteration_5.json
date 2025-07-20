@@ -1,0 +1,57 @@
+{
+  "iteration": 5,
+  "timestamp": "2025-06-30T02:20:02.408Z",
+  "discoveries": {
+    "people": [],
+    "places": [
+      {
+        "name": "KRAKOW",
+        "source": "cities_api",
+        "relatedPeople": [],
+        "barbaraFound": true
+      }
+    ]
+  },
+  "relationships": [
+    {
+      "person": "ALEKSANDER",
+      "place": "KRAKOW",
+      "source": "people_api"
+    },
+    {
+      "person": "ALEKSANDER",
+      "place": "LUBLIN",
+      "source": "people_api"
+    },
+    {
+      "person": "ALEKSANDER",
+      "place": "WARSZAWA",
+      "source": "people_api"
+    },
+    {
+      "person": "ANDRZEJ",
+      "place": "WARSZAWA",
+      "source": "people_api"
+    },
+    {
+      "person": "ANDRZEJ",
+      "place": "GRUDZIADZ",
+      "source": "people_api"
+    },
+    {
+      "person": "RAFAL",
+      "place": "GRUDZIADZ",
+      "source": "people_api"
+    },
+    {
+      "person": "RAFAL",
+      "place": "WARSZAWA",
+      "source": "people_api"
+    },
+    {
+      "person": "RAFAL",
+      "place": "LUBLIN",
+      "source": "people_api"
+    }
+  ]
+}
