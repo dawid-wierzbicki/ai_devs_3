@@ -1,0 +1,10 @@
+01=kanto,saka,brunn
+02=kezka,barru,asal
+03=dwylo,blodau,cerdd
+04=kutsu,gato,madarak
+05=enamorar,bertan,tycio
+06=ezkutatu,rejt,ocultar
+07=selymes,sedoso,silkkinen
+08=kynsien,varvas,hiusten
+09=saudade,honvágy,kaipaus
+10=masnach,lledr,meddyg
