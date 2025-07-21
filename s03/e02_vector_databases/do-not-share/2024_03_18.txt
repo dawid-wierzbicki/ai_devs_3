@@ -5,4 +5,6 @@ W wyniku przeprowadzonych testów Wzmocnionego Generatora Pulsów Elektromagnety
 Wnioski z testów wskazują, że WGPE ma potencjał do użycia w ramach działań sabotujących oraz w operacjach wojskowych w obszarach o wysokiej gęstości technologicznej. Jednakże zaobserwowano również problemy z nadmiernym nagrzewaniem się jednostki po dłuższym użytkowaniu.
 
 W przyszłości planowane są poprawki konstrukcyjne, mające na celu zwiększenie wydajności chłodzenia oraz wydłużenie czasu pracy broni. Testy na bardziej zaawansowanych systemach dostarczą dalszych informacji o użyteczności WGPE w akcjach specjalnych.
+
 https://c3ntrala.ag3nts.org/report
+
