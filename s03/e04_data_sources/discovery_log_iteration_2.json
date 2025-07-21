@@ -1,0 +1,35 @@
+{
+  "iteration": 2,
+  "timestamp": "2025-06-30T02:20:01.307Z",
+  "discoveries": {
+    "people": [
+      {
+        "name": "ALEKSANDER",
+        "source": "people_api",
+        "relatedPlaces": [
+          "KRAKOW",
+          "LUBLIN",
+          "WARSZAWA"
+        ]
+      }
+    ],
+    "places": []
+  },
+  "relationships": [
+    {
+      "person": "ALEKSANDER",
+      "place": "KRAKOW",
+      "source": "people_api"
+    },
+    {
+      "person": "ALEKSANDER",
+      "place": "LUBLIN",
+      "source": "people_api"
+    },
+    {
+      "person": "ALEKSANDER",
+      "place": "WARSZAWA",
+      "source": "people_api"
+    }
+  ]
+}
