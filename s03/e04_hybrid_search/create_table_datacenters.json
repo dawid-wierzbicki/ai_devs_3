@@ -1,0 +1,9 @@
+{
+  "reply": [
+    {
+      "Table": "datacenters",
+      "Create Table": "CREATE TABLE `datacenters` (\n  `dc_id` int(11) DEFAULT NULL,\n  `location` varchar(30) NOT NULL,\n  `manager` int(11) NOT NULL DEFAULT 31,\n  `is_active` int(11) DEFAULT 0\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci"
+    }
+  ],
+  "error": "OK"
+}
