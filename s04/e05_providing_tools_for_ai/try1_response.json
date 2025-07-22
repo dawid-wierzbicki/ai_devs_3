@@ -1,0 +1,9 @@
+{
+  "attempt": 1,
+  "timestamp": "2025-07-22T17:02:32.390Z",
+  "centrala_response": {
+    "code": 0,
+    "message": "{{FLG:DEATHNOTE}}"
+  },
+  "http_status": 200
+}

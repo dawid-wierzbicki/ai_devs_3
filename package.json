@@ -57,6 +57,9 @@
     "build:hosted-webhook": "tsc s04/e04_hosted_webhook/s04e04_hosted_webhook.ts",
     "start:hosted-webhook": "npm run build:hosted-webhook && node s04/e04_hosted_webhook/s04e04_hosted_webhook.js",
     "dev:hosted-webhook": "ts-node s04/e04_hosted_webhook/s04e04_hosted_webhook.ts",
+    "build:providing-tools": "tsc s04/e05_providing_tools_for_ai/s04e05_providing_tools_for_ai.ts",
+    "start:providing-tools": "node s04/e05_providing_tools_for_ai/s04e05_providing_tools_for_ai.js",
+    "dev:providing-tools": "ts-node s04/e05_providing_tools_for_ai/s04e05_providing_tools_for_ai.ts",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -83,6 +86,8 @@
     "jsdom": "^26.1.0",
     "neo4j-driver": "^5.28.1",
     "node-fetch": "^2.7.0",
-    "openai": "^3.3.0"
+    "openai": "^3.3.0",
+    "pdf-parse": "^1.1.1",
+    "pdf2pic": "^3.2.0"
   }
 }
