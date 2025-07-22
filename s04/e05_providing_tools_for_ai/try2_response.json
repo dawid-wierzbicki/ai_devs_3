@@ -1,0 +1,11 @@
+{
+  "attempt": 2,
+  "timestamp": "2025-07-22T17:01:09.862Z",
+  "centrala_response": {
+    "code": -340,
+    "message": "Answer for question 04 is incorrect",
+    "hint": "Rafał odwołuje się względnie do tej daty i nie wymienia jej dosłownie w tekście",
+    "debug": "You sent: 2024-11-11"
+  },
+  "http_status": 400
+}

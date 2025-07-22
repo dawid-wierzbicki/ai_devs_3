@@ -19,7 +19,7 @@ const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 // Neo4j configuration
 const NEO4J_URI = process.env.NEO4J_URI || 'bolt://localhost:7687';
 const NEO4J_USERNAME = process.env.NEO4J_USERNAME || 'neo4j';
-const NEO4J_PASSWORD = process.env.NEO4J_PASSWORD || '---------';
+const NEO4J_PASSWORD = process.env.NEO4J_PASSWORD || '';
 
 let neo4jDriver: Driver | null = null;
 let neo4jSession: Session | null = null;
