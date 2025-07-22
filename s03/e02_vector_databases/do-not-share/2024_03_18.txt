@@ -7,4 +7,3 @@ Wnioski z testów wskazują, że WGPE ma potencjał do użycia w ramach działa�
 W przyszłości planowane są poprawki konstrukcyjne, mające na celu zwiększenie wydajności chłodzenia oraz wydłużenie czasu pracy broni. Testy na bardziej zaawansowanych systemach dostarczą dalszych informacji o użyteczności WGPE w akcjach specjalnych.
 
 https://c3ntrala.ag3nts.org/report
-
