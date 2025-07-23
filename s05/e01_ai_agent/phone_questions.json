@@ -1,0 +1,8 @@
+{
+  "01": "Jeden z rozmówców skłamał podczas rozmowy. Kto to był?",
+  "02": "Jaki jest prawdziwy endpoint do API podany przez osobę, która NIE skłamała?",
+  "03": "Jakim przezwiskiem określany jest chłopak Barbary?",
+  "04": "Jakie dwie osoby rozmawiają ze sobą w pierwszej rozmowie? Podaj ich imiona",
+  "05": "Co odpowiada poprawny endpoint API po wysłaniu do niego hasła w polu \"password\" jako JSON?",
+  "06": "Jak ma na imię osoba, która dostarczyła dostęp do API, ale nie znała do niego hasła, jednak nadal pracuje nad jego zdobyciem?"
+}
